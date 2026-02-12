@@ -1,19 +1,30 @@
-Here’s a simple README you can drop into a `README.md` file in your project.
+Here’s a tailored `README.md` you can paste directly into that repo.
 
 ***
 
-# Cloudflare Workers – Hello API
+# ch-hello-api
 
 A simple Cloudflare Worker that serves:
 
 - A **landing page** at `/` (HTML)  
 - JSON API endpoints at `/api/hello`, `/api/time`, and `/api/health`
 
+Deployed Worker URL (example):  
+`https://ch-hello-api.<your-account>.workers.dev`
+
+## Features
+
+- Edge‑hosted HTTP API using **Cloudflare Workers**  
+- Simple HTML landing page at the root path (`/`)  
+- JSON endpoints suitable for monitoring demos or as a starter for more complex APIs
+
+Cloudflare’s Workers runtime is documented here. [developers.cloudflare](https://developers.cloudflare.com/workers/get-started/guide/)
+
 ## Prerequisites
 
-- Node.js (LTS) installed  
-- A Cloudflare account  
-- Wrangler CLI installed:
+- **Node.js** (LTS) installed  
+- **Cloudflare account**  
+- **Wrangler CLI** installed globally:
 
 ```bash
 npm install -g wrangler
@@ -25,21 +36,38 @@ Check Wrangler:
 wrangler --version
 ```
 
-## Setup
+## Configuration
 
-1. Clone or copy this project into a folder:
+This project uses `wrangler.json` for configuration (Wrangler 4.x). [developers.cloudflare](https://developers.cloudflare.com/workers/wrangler/configuration/)
 
-```bash
-git clone <this-repo-url>
-cd <project-folder>
+Example:
+
+```json
+{
+  "name": "ch-hello-api",
+  "main": "src/index.js",
+  "compatibility_date": "2024-10-01",
+  "account_id": "YOUR_ACCOUNT_ID"
+}
 ```
 
-2. Configure Cloudflare:
+- `name`: Worker name.  
+- `main`: Entry file for the Worker.  
+- `compatibility_date`: Workers compatibility date.  
+- `account_id`: Your Cloudflare account ID (from the Cloudflare dashboard URL).  
 
-- Make sure you have a Cloudflare account.  
-- (If needed) create an API token with Workers permissions in the Cloudflare dashboard.
+See the Wrangler configuration docs for field details. [app.studyraid](https://app.studyraid.com/en/read/14352/488193/configuring-wranglertoml-for-your-project-needs)
 
-3. Configure Wrangler (if using an API token):
+## Authentication (using API token)
+
+If Wrangler’s browser login is problematic, you can authenticate with a Cloudflare API token. [cloudflare-docs-zh.pages](https://cloudflare-docs-zh.pages.dev/workers/wrangler/ci-cd/)
+
+1. In the Cloudflare dashboard:  
+   - My Profile → **API Tokens** → **Create Token**  
+   - Use a template that includes Workers permissions (e.g. “Edit Cloudflare Workers”). [developers.cloudflare](https://developers.cloudflare.com/workers/wrangler/migration/v1-to-v2/wrangler-legacy/authentication/)
+   - Copy the token value.
+
+2. In your terminal, set the `CLOUDFLARE_API_TOKEN` environment variable.
 
 On macOS / Linux:
 
@@ -53,78 +81,70 @@ On Windows PowerShell:
 $env:CLOUDFLARE_API_TOKEN="YOUR_TOKEN_VALUE"
 ```
 
-Make sure `wrangler.json` contains your account ID, for example:
+Check:
 
-```json
-{
-  "name": "ch-hello-api",
-  "main": "src/index.js",
-  "compatibility_date": "2024-10-01",
-  "account_id": "YOUR_ACCOUNT_ID"
-}
+```bash
+wrangler whoami
 ```
 
-Cloudflare’s Wrangler configuration docs describe these fields in more detail. [developers.cloudflare](https://developers.cloudflare.com/workers/wrangler/configuration/)
+It should print your Cloudflare account information instead of asking you to log in. [cloudflare-docs-zh.pages](https://cloudflare-docs-zh.pages.dev/workers/wrangler/ci-cd/)
 
 ## Local development
 
-From the project folder:
+Clone the repo and start a local dev server:
 
 ```bash
+git clone https://github.com/gagofure/ch-hello-api.git
+cd ch-hello-api
+
 wrangler dev
 ```
 
-This starts a local dev server, usually at:
+Wrangler will start a local server, usually at:
 
 ```text
 http://127.0.0.1:8787
 ```
 
-Test in your browser or with curl:
+Test endpoints:
 
 - Landing page:  
   `http://127.0.0.1:8787/`
 
-- JSON endpoints:  
+- JSON API:  
   `http://127.0.0.1:8787/api/hello`  
   `http://127.0.0.1:8787/api/time`  
   `http://127.0.0.1:8787/api/health`
 
-Cloudflare’s “Get started with Workers (CLI)” guide uses the same `wrangler dev` workflow for local testing. [developers.cloudflare](https://developers.cloudflare.com/workers/get-started/guide/)
+The local dev flow matches Cloudflare’s “Get started – CLI” guide for Workers. [developers.cloudflare](https://developers.cloudflare.com/workers/get-started/guide/)
 
 ## Deploy
 
-Deploy the Worker to Cloudflare:
+From the repo root:
 
 ```bash
 wrangler deploy
 ```
 
-Wrangler will output a public URL like:
+On success, Wrangler prints the public Worker URL, for example:
 
 ```text
-https://ch-hello-api.<your-name>.workers.dev
+https://ch-hello-api.<your-account>.workers.dev
 ```
 
 You can then access:
 
-- `https://...workers.dev/` – landing page  
+- `https://...workers.dev/` – HTML landing page  
 - `https://...workers.dev/api/hello` – hello JSON  
 - `https://...workers.dev/api/time` – time JSON  
 - `https://...workers.dev/api/health` – health JSON
 
 ## Project structure
 
-Example structure:
-
 ```text
-.
+ch-hello-api/
 ├─ src/
-│  └─ index.js      # Worker code (HTML landing page + JSON API)
+│  └─ index.js      # Worker code (landing page + JSON API)
 ├─ wrangler.json    # Wrangler configuration (name, main, account_id, compatibility_date)
 └─ README.md
 ```
-
-Configuration options for `wrangler.json` are documented in the Wrangler configuration reference. [app.studyraid](https://app.studyraid.com/en/read/14352/488193/configuring-wranglertoml-for-your-project-needs)
-
-***
