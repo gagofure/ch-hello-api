@@ -12,7 +12,7 @@ jobs:
 
       - name: Replace ID in wrangler.jsonc
         run: |
-          sed -i "s|\${env.CLOUDFLARE_ACCOUNT_ID }|${{ secrets.CLOUDFLARE_ACCOUNT_ID  }}|g" wrangler.jsonc
+          sed -i "s|\${CLOUDFLARE_ACCOUNT_ID }|${{ secrets.CLOUDFLARE_ACCOUNT_ID  }}|g" wrangler.jsonc
 
       - name: Deploy Worker
         uses: cloudflare/wrangler-action@v3
