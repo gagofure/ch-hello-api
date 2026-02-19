@@ -6,15 +6,10 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
-
-      - name: Replace ID in wrangler.jsonc
-        run: |
-          sed -i "s|\${CLOUDFLARE_ACCOUNT_ID }|${{ secrets.CLOUDFLARE_ACCOUNT_ID  }}|g" wrangler.jsonc
-
-      - name: Deploy Worker
+      
+      - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
