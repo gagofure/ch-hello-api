@@ -13,7 +13,7 @@ export default {
           <title>Ogaga Cloudflare Worker</title>
         </head>
         <body>
-          <h1>Ogaga's – Cloudflare Worker</h1>
+          <h1>Ogaga's – Cloudflare Worker Playground</h1>
           <p>This Worker exposes a simple JSON API at <code>/api/hello</code>, <code>/api/time</code>, and <code>/api/health</code>.</p>
         </body>
         </html>
