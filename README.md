@@ -1,8 +1,5 @@
 [![Deploy Worker](https://github.com/gagofure/ch-hello-api/actions/workflows/deploy-worker.yml/badge.svg)](https://github.com/gagofure/ch-hello-api/actions/workflows/deploy-worker.yml)
 
-
-Here’s a tailored `README.md` you can paste directly into that repo.
-
 ***
 
 # ch-hello-api
