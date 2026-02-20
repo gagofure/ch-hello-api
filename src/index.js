@@ -1,5 +1,42 @@
+// Simple in-memory rate limiter
+const rateLimitStore = new Map();
+const RATE_LIMIT_REQUESTS = 10; // requests per minute
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute in ms
+
+function getRateLimitKey(request) {
+	return request.headers.get("CF-Connecting-IP") || "unknown";
+}
+
+function isRateLimited(key) {
+	const now = Date.now();
+	if (!rateLimitStore.has(key)) {
+		rateLimitStore.set(key, []);
+	}
+
+	const requests = rateLimitStore.get(key);
+	// Remove old requests outside the window
+	const validRequests = requests.filter((time) => now - time < RATE_LIMIT_WINDOW);
+	rateLimitStore.set(key, validRequests);
+
+	if (validRequests.length >= RATE_LIMIT_REQUESTS) {
+		return true;
+	}
+
+	validRequests.push(now);
+	return false;
+}
+
 export default {
 	async fetch(request, env, ctx) {
+		// Check rate limit
+		const clientKey = getRateLimitKey(request);
+		if (isRateLimited(clientKey)) {
+			return json(
+				{ error: "Rate limited", retryAfter: 60 },
+				429
+			);
+		}
+
 		const url = new URL(request.url);
 		const { pathname } = url;
 
