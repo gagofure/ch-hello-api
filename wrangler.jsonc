@@ -7,8 +7,8 @@
 	"name": "ch-hello-api",
 	"main": "src/index.js",
 	"compatibility_date": "2026-02-12",
-	//"account_id": "${CLOUDFLARE_ACCOUNT_ID}",
-	"account_id":"05d0b1bfe217aa48e6c61e542b4faf39",
+	"account_id": "${CLOUDFLARE_ACCOUNT_ID}",
+	// "account_id":"05d0b1bfe217aa48e6c61e542b4faf39",
 	"observability": {
 		"enabled": true,
 	},
