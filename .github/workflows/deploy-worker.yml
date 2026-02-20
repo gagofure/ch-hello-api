@@ -9,6 +9,10 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
+        
+      - name: Replace ID in wrangler.jsonc
+        run: |
+          sed -i "s|\${CLOUDFLARE_ACCOUNT_ID}|${{ secrets.CLOUDFLARE_ACCOUNT_ID }}|g" wrangler.jsonc
       - name: Build & Deploy Worker
         uses: cloudflare/wrangler-action@v3
         with:
